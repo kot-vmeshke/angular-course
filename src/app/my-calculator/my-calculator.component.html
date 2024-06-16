@@ -1,0 +1,62 @@
+<div class="container">
+  <h1 class="main-title">Math Genius</h1>
+
+  <ng-container *ngFor="let item of calcGroups; let i = index">
+    <div class="calc-group-wrapper">
+      <!-- <span>(</span> -->
+      <mat-form-field>
+        <mat-label>First number</mat-label>
+        <input matInput type="number" [(ngModel)]="item.first.value">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Modificator</mat-label>
+        <mat-select [(ngModel)]="item.first.modificator">
+          <mat-option [value]="mod.value" *ngFor="let mod of CalcModifiers | keyvalue">{{mod.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Operator</mat-label>
+        <mat-select [(ngModel)]="item.operation">
+          <mat-option [value]="operation.value"
+            *ngFor="let operation of CalcOperations | keyvalue">{{operation.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Second number</mat-label>
+        <input matInput type="number" [(ngModel)]="item.second.value">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Modificator</mat-label>
+        <mat-select [(ngModel)]="item.second.modificator">
+          <mat-option [value]="mod.value" *ngFor="let mod of CalcModifiers | keyvalue">{{mod.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <span>)</span> -->
+      <button mat-button (click)="removeGroup(i)" *ngIf="i !== 0">Delete Group</button>
+    </div>
+
+    <mat-form-field *ngIf="operationsBetweenGrouops.length > i">
+      <mat-label>Operator</mat-label>
+      <mat-select [(ngModel)]="operationsBetweenGrouops[i]">
+        <mat-option [value]="operation.value"
+          *ngFor="let operation of CalcOperations | keyvalue">{{operation.value}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </ng-container>
+
+  <div class="result">{{result !== undefined ? 'Result: ' + result : 'Press Calc to see result'}}</div>
+
+  <div class="buttons-wrapper">
+    <button mat-flat-button (click)="calcGroup()" color="accent" class="large-button">Calc</button>
+    <button mat-stroked-button (click)="addGroup()">Add Group</button>
+  </div>
+
+    <div class="history-wrapper">
+      <h2>History of operations</h2>
+      <small *ngIf="!history.length">No operations</small>
+      <p *ngFor="let operation of history">{{operation}}</p>
+    </div>
+</div>
